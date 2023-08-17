@@ -167,20 +167,6 @@ public class App_Handle : MonoBehaviour
             this.setting_gpu_info_status.set_icon(this.sp_icon_off);
         this.setting_gpu_info_status.set_color(this.carrot.color_highlight);
 
-        Carrot.Carrot_Box_Item setting_rank = box_setting.create_item_of_top("rank_aetting");
-        setting_rank.set_icon(this.carrot.game.icon_top_player);
-        setting_rank.set_title("Ranking");
-        setting_rank.set_tip("See the Ranking of people with the most powerful equipment");
-        setting_rank.set_act(this.btn_show_rank);
-
-        Carrot.Carrot_Box_Item setting_login = box_setting.create_item_of_top("login_setting");
-        if (this.carrot.user.get_id_user_login() != "")
-            setting_login.set_icon(this.carrot.user.icon_user_login_true);
-        else
-            setting_login.set_icon(this.carrot.user.icon_user_login_false);
-        setting_login.set_title("Account Information");
-        setting_login.set_tip("Log in or view personal information");
-        setting_login.set_act(this.btn_show_user);
 
         this.is_update_rank = false;
     }
