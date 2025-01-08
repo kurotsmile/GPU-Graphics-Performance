@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using Carrot;
 using Tayx.Graphy;
 using UnityEngine;
 using UnityEngine.UI;
@@ -49,22 +49,14 @@ public class App_Handle : MonoBehaviour
     {
         this.carrot.Load_Carrot();
         this.carrot.act_after_close_all_box=this.enable_update_rank;
-        this.list_fish = new List<GameObject>();
-        this.ads.On_Load();
-        this.carrot.delay_function(2f,()=>{
-            this.carrot.game.load_bk_music(this.sound_bk);
-            if (this.carrot.get_status_sound())
-            {   
-                this.panel_audio.SetActive(true);
-                this.sound_bk.Play();
-            }
-            else
-            {
-                this.panel_audio.SetActive(false);
-                this.sound_bk.Stop();
-            }
-        });
+        this.carrot.shop.onCarrotPaySuccess += onCarrotPaySuccess;
+        this.carrot.shop.onCarrotRestoreSuccess += onCarrotRestoreSuccess;
 
+        this.list_fish = new List<GameObject>();
+        this.carrot.game.act_click_watch_ads_in_music_bk=this.ads.ShowRewardedVideo;
+        this.ads.onRewardedSuccess=this.carrot.game.OnRewardedSuccess;
+
+        this.ads.On_Load();
         this.add_whale();
 
         if (PlayerPrefs.GetInt("is_info_advanced", 0) == 0)
@@ -106,7 +98,7 @@ public class App_Handle : MonoBehaviour
 
     private void add_whale()
     {
-       // this.carrot.ads.show_ads_Interstitial();
+        this.ads.Show_Video_Ads();
         GameObject obj_whale = Instantiate(this.obj_whale_prefab);
         obj_whale.transform.SetParent(this.arean_whale);
         obj_whale.transform.localPosition = new Vector3(Random.Range(-2, 2), Random.Range(-2, 2), Random.Range(-2, 2));
@@ -122,11 +114,11 @@ public class App_Handle : MonoBehaviour
 
     public void btn_delete_one()
     {
-        //this.carrot.ads.show_ads_Interstitial();
+        this.ads.Show_Video_Ads();
         if (this.list_fish.Count <=0) return;
         this.carrot.play_sound_click();
         int index_last = this.list_fish.Count - 1;
-        this.create_effect(this.list_fish[index_last].transform.position, 0);
+        this.Create_effect(this.list_fish[index_last].transform.position, 0);
         Destroy(this.list_fish[index_last]);
         this.list_fish.RemoveAt(index_last);
         this.txt_count_fish.text = "x " + this.list_fish.Count;
@@ -201,14 +193,14 @@ public class App_Handle : MonoBehaviour
             this.is_info_ram = false;
             this.setting_ram_info_status.set_icon(this.sp_icon_off);
             PlayerPrefs.SetInt("is_info_ram", 1);
-            //this.carrot.show_msg("Ram Information", "Ram information is not displayed");
+            this.carrot.Show_msg("Ram Information", "Ram information is not displayed");
         }
         else
         {
             this.is_info_ram = true;
             this.setting_ram_info_status.set_icon(this.sp_icon_on);
             PlayerPrefs.SetInt("is_info_ram", 0);
-            //this.carrot.show_msg("Ram Information", "Ram information has been displayed on the application home screen");
+            this.carrot.Show_msg("Ram Information", "Ram information has been displayed on the application home screen");
         }
         this.carrot.play_sound_click();
         this.check_status_info_ram();
@@ -317,14 +309,50 @@ public class App_Handle : MonoBehaviour
 
         this.check_status_info_advanced();
         this.check_status_info_ram();
+
+        this.carrot.delay_function(2f,()=>{
+            if (this.carrot.get_status_sound())
+            {   
+                this.panel_audio.SetActive(true);
+                this.sound_bk.Play();
+                this.carrot.game.load_bk_music(this.sound_bk);
+            }
+            else
+            {
+                this.panel_audio.SetActive(false);
+                this.sound_bk.Stop();
+            }
+        });
+
     }
 
-    private void create_effect(Vector3 pos,int index_effect = 0)
+    private void Create_effect(Vector3 pos,int index_effect = 0)
     {
         GameObject obj_effect = Instantiate(this.obj_effect_prefab[index_effect]);
         obj_effect.transform.SetParent(this.arean_whale);
         obj_effect.transform.position = pos;
         obj_effect.transform.localScale = new Vector3(0.001f, 0.001f, 0.001f);
         Destroy(obj_effect, 1f);
+    }
+
+    private void onCarrotPaySuccess(string id_product)
+    {
+        if (id_product == this.carrot.shop.get_id_by_index(0))
+        {
+            this.carrot.Show_msg("Remove Ads", "Remove Ads Success!", Msg_Icon.Success);
+            this.ads.RemoveAds();
+        }
+    }
+
+    private void onCarrotRestoreSuccess(string[] array_id)
+    {
+        foreach (string id_product in array_id)
+        {
+            if (id_product == this.carrot.shop.get_id_by_index(0))
+            {
+                this.carrot.Show_msg("Remove Ads", "Remove Ads Success!", Msg_Icon.Success);
+                this.ads.RemoveAds();
+            }
+        }
     }
 }

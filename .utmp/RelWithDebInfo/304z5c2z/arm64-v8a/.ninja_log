@@ -1,5 +1,5 @@
 # ninja log v5
-1	418	7579463500952805	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	d12eaf05fec83b3
-420	689	7579463503676201	D:/GPU Graphics Performance/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/304z5c2z/obj/arm64-v8a/libswappywrapper.so	9b80096a629de896
-3	1368	7580025531283273	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	d12eaf05fec83b3
-1369	2058	7580025538139795	D:/GPU Graphics Performance/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/304z5c2z/obj/arm64-v8a/libswappywrapper.so	9b80096a629de896
+4	505	7580155247075426	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	d12eaf05fec83b3
+506	1315	7580155255011550	D:/GPU Graphics Performance/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/304z5c2z/obj/arm64-v8a/libswappywrapper.so	9b80096a629de896
+13	1417	7580198671786841	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	d12eaf05fec83b3
+1417	2028	7580198677922370	D:/GPU Graphics Performance/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/304z5c2z/obj/arm64-v8a/libswappywrapper.so	9b80096a629de896
