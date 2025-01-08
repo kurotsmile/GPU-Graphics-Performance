@@ -50,18 +50,21 @@ public class App_Handle : MonoBehaviour
         this.carrot.Load_Carrot();
         this.carrot.act_after_close_all_box=this.enable_update_rank;
         this.list_fish = new List<GameObject>();
-
-        if (this.carrot.get_status_sound())
-        {
+        this.ads.On_Load();
+        this.carrot.delay_function(2f,()=>{
             this.carrot.game.load_bk_music(this.sound_bk);
-            this.panel_audio.SetActive(true);
-            this.sound_bk.Play();
-        }
-        else
-        {
-            this.panel_audio.SetActive(false);
-            this.sound_bk.Stop();
-        }
+            if (this.carrot.get_status_sound())
+            {   
+                this.panel_audio.SetActive(true);
+                this.sound_bk.Play();
+            }
+            else
+            {
+                this.panel_audio.SetActive(false);
+                this.sound_bk.Stop();
+            }
+        });
+
         this.add_whale();
 
         if (PlayerPrefs.GetInt("is_info_advanced", 0) == 0)
@@ -131,7 +134,7 @@ public class App_Handle : MonoBehaviour
 
     public void btn_clear_all_whale()
     {
-        //this.carrot.ads.show_ads_Interstitial();
+        this.ads.ShowInterstitialAd();
         this.carrot.play_sound_click();
         this.carrot.play_vibrate();
         for (int i = 0; i < this.list_fish.Count; i++) Destroy(this.list_fish[i]);
@@ -168,7 +171,6 @@ public class App_Handle : MonoBehaviour
             this.setting_gpu_info_status.set_icon(this.sp_icon_off);
         this.setting_gpu_info_status.set_color(this.carrot.color_highlight);
 
-
         this.is_update_rank = false;
     }
 
@@ -179,14 +181,14 @@ public class App_Handle : MonoBehaviour
             this.is_info_advanced = false;
             this.setting_gpu_info_status.set_icon(this.sp_icon_off);
             PlayerPrefs.SetInt("is_info_advanced", 1);
-            //this.carrot.show_msg("Advanced Information", "Expansion information is not displayed");
+            this.carrot.Show_msg("Advanced Information", "Expansion information is not displayed");
         }
         else
         {
             this.is_info_advanced = true;
             this.setting_gpu_info_status.set_icon(this.sp_icon_on);
             PlayerPrefs.SetInt("is_info_advanced", 0);
-            //this.carrot.show_msg("Advanced Information", "Expanded information has been displayed on the application home screen");
+            this.carrot.Show_msg("Advanced Information", "Expanded information has been displayed on the application home screen");
         }
         this.carrot.play_sound_click();
         this.check_status_info_advanced();
