@@ -57,6 +57,7 @@ public class App_Handle : MonoBehaviour
         this.ads.onRewardedSuccess=this.carrot.game.OnRewardedSuccess;
 
         this.ads.On_Load();
+        this.carrot.act_buy_ads_success=this.ads.RemoveAds;
         this.add_whale();
 
         if (PlayerPrefs.GetInt("is_info_advanced", 0) == 0)
@@ -98,7 +99,7 @@ public class App_Handle : MonoBehaviour
 
     private void add_whale()
     {
-        this.ads.Show_Video_Ads();
+        this.ads.Show_ads_Interstitial();
         GameObject obj_whale = Instantiate(this.obj_whale_prefab);
         obj_whale.transform.SetParent(this.arean_whale);
         obj_whale.transform.localPosition = new Vector3(Random.Range(-2, 2), Random.Range(-2, 2), Random.Range(-2, 2));
@@ -114,7 +115,7 @@ public class App_Handle : MonoBehaviour
 
     public void btn_delete_one()
     {
-        this.ads.Show_Video_Ads();
+        this.ads.Show_ads_Interstitial();
         if (this.list_fish.Count <=0) return;
         this.carrot.play_sound_click();
         int index_last = this.list_fish.Count - 1;

@@ -10,7 +10,7 @@ Are you curious about how powerful your device’s graphics really are? Introduc
 🎮 **Test Your Graphics with Fun and Precision**  
 Experience the thrill of pushing your device to its limits by dropping vibrant 3D fish into a stunning virtual aquarium. The more fish you add, the greater the load on your GPU. Watch as your device’s FPS (frames per second) and performance indicators are measured in real-time, giving you a clear picture of your graphics power. How many fish can your device handle? Challenge it to find out!
 
-![screenshot](screenshot1.png)
+![screenshot](screenshot13.png)
 
 📊 **Real-Time Performance Charts**  
 Take a deep dive into your system’s performance with beautifully crafted, real-time graphical charts. Monitor your GPU’s efficiency over time, track frame rates, and identify performance bottlenecks with ease.  
