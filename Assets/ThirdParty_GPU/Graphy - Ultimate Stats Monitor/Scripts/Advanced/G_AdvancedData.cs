@@ -33,18 +33,18 @@ namespace Tayx.Graphy.Advanced
         #region Variables -> Serialized Private
 
 
-        [SerializeField] private Text m_graphicsDeviceVersionText = null;
+        [SerializeField] public Text m_graphicsDeviceVersionText = null;
 
-        [SerializeField] private Text m_processorTypeText = null;
+        [SerializeField] public Text m_processorTypeText = null;
 
-        [SerializeField] private Text m_operatingSystemText = null;
+        [SerializeField] public Text m_operatingSystemText = null;
 
-        [SerializeField] private Text m_systemMemoryText = null;
+        [SerializeField] public Text m_systemMemoryText = null;
 
-        [SerializeField] private Text m_graphicsDeviceNameText = null;
-        [SerializeField] private Text m_graphicsMemorySizeText = null;
-        [SerializeField] private Text m_screenResolutionText = null;
-        [SerializeField] private Text m_gameWindowResolutionText = null;
+        [SerializeField] public Text m_graphicsDeviceNameText = null;
+        [SerializeField] public Text m_graphicsMemorySizeText = null;
+        [SerializeField] public Text m_screenResolutionText = null;
+        [SerializeField] public Text m_gameWindowResolutionText = null;
 
         [Range(1, 60)]
         [SerializeField] private float m_updateRate = 1f;  // 1 update per sec.

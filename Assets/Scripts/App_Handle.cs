@@ -10,12 +10,14 @@ public class App_Handle : MonoBehaviour
     public Carrot.Carrot carrot;
     public IronSourceAds ads;
     public GraphyManager g;
+    public ManagerInfo managerInfo;
+    public Carrot_File file;
     public AudioSource sound_bk;
+    public bool is_info_advanced = true;
+    public bool is_info_ram = true;
     private float timer_update_rank = 0;
     public float timer_max_update =10f;
     private bool is_update_rank = true;
-    private bool is_info_advanced = true;
-    private bool is_info_ram = true;
 
     [Header("Scene")]
     public Transform area_portrait;
@@ -39,8 +41,9 @@ public class App_Handle : MonoBehaviour
     public Sprite sp_icon_ram;
     public Sprite sp_icon_on;
     public Sprite sp_icon_off;
-    private Carrot.Carrot_Box_Btn_Item setting_gpu_info_status;
-    private Carrot.Carrot_Box_Btn_Item setting_ram_info_status;
+    public Sprite sp_icon_save;
+    private Carrot_Box_Btn_Item setting_gpu_info_status;
+    private Carrot_Box_Btn_Item setting_ram_info_status;
 
     [Header("Effect")]
     public GameObject[] obj_effect_prefab;
@@ -48,16 +51,18 @@ public class App_Handle : MonoBehaviour
     void Start()
     {
         this.carrot.Load_Carrot();
-        this.carrot.act_after_close_all_box=this.enable_update_rank;
+        this.carrot.act_after_close_all_box = this.enable_update_rank;
         this.carrot.shop.onCarrotPaySuccess += onCarrotPaySuccess;
         this.carrot.shop.onCarrotRestoreSuccess += onCarrotRestoreSuccess;
 
         this.list_fish = new List<GameObject>();
-        this.carrot.game.act_click_watch_ads_in_music_bk=this.ads.ShowRewardedVideo;
-        this.ads.onRewardedSuccess=this.carrot.game.OnRewardedSuccess;
 
         this.ads.On_Load();
-        this.carrot.act_buy_ads_success=this.ads.RemoveAds;
+
+        this.carrot.act_buy_ads_success = this.ads.RemoveAds;
+        this.carrot.game.act_click_watch_ads_in_music_bk = this.ads.ShowRewardedVideo;
+        this.ads.onRewardedSuccess = this.carrot.game.OnRewardedSuccess;
+
         this.add_whale();
 
         if (PlayerPrefs.GetInt("is_info_advanced", 0) == 0)
@@ -71,6 +76,11 @@ public class App_Handle : MonoBehaviour
             this.is_info_ram = false;
 
         this.check_rotate_scene();
+
+        if (carrot.os_app == OS.Android)
+            file.type =Carrot_File_Type.SimpleFileBrowser;
+        else
+            file.type =Carrot_File_Type.StandaloneFileBrowser;
     }
 
     private void Update()
@@ -99,7 +109,7 @@ public class App_Handle : MonoBehaviour
 
     private void add_whale()
     {
-        this.ads.Show_ads_Interstitial();
+        this.ads.show_ads_Interstitial();
         GameObject obj_whale = Instantiate(this.obj_whale_prefab);
         obj_whale.transform.SetParent(this.arean_whale);
         obj_whale.transform.localPosition = new Vector3(Random.Range(-2, 2), Random.Range(-2, 2), Random.Range(-2, 2));
@@ -115,7 +125,7 @@ public class App_Handle : MonoBehaviour
 
     public void btn_delete_one()
     {
-        this.ads.Show_ads_Interstitial();
+        this.ads.show_ads_Interstitial();
         if (this.list_fish.Count <=0) return;
         this.carrot.play_sound_click();
         int index_last = this.list_fish.Count - 1;
@@ -139,6 +149,12 @@ public class App_Handle : MonoBehaviour
     {
         Carrot.Carrot_Box box_setting=this.carrot.Create_Setting();
         box_setting.set_act_before_closing(after_close_setting);
+
+        Carrot.Carrot_Box_Item setting_save=box_setting.create_item_of_top("saveInfo");
+        setting_save.set_icon(this.sp_icon_save);
+        setting_save.set_title("Save Information");
+        setting_save.set_tip("Save info as text for viewing or sharing");
+        setting_save.set_act(managerInfo.SaveInfo);
 
         Carrot.Carrot_Box_Item setting_ram_info = box_setting.create_item_of_top("info_ram");
         setting_ram_info.set_icon(this.sp_icon_ram);

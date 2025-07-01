@@ -201,7 +201,7 @@ public class IronSourceAds : MonoBehaviour
         interstitialAd.LoadAd();
     }
 
-    public void Show_ads_Interstitial()
+    public void show_ads_Interstitial()
     {
         if(this.is_ads){
             this.count_step++;
@@ -215,18 +215,17 @@ public class IronSourceAds : MonoBehaviour
 
     public void ShowInterstitialAd()
     {
-        if(interstitialAd!=null){
-            if (interstitialAd.IsAdReady())
-            {
-                interstitialAd.ShowAd();
-            }
+        if(interstitialAd==null) return;
+        
+        if (interstitialAd.IsAdReady())
+        {
+            interstitialAd.ShowAd();
         }
-
     }
 
     void DestroyInterstitialAd()
     {
-        if(interstitialAd!=null) interstitialAd.DestroyAd();
+        interstitialAd.DestroyAd();
     }
 
     void InterstitialOnAdLoadedEvent(LevelPlayAdInfo adInfo) { }
