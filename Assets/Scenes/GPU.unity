@@ -369,6 +369,7 @@ MonoBehaviour:
   managerInfo: {fileID: 196699647}
   file: {fileID: 1919606265}
   sound_bk: {fileID: 723788320}
+  CameraMain: {fileID: 1043237883}
   is_info_advanced: 1
   is_info_ram: 1
   timer_max_update: 12

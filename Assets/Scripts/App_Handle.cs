@@ -13,6 +13,7 @@ public class App_Handle : MonoBehaviour
     public ManagerInfo managerInfo;
     public Carrot_File file;
     public AudioSource sound_bk;
+    public Camera CameraMain;
     public bool is_info_advanced = true;
     public bool is_info_ram = true;
     private float timer_update_rank = 0;
@@ -47,6 +48,7 @@ public class App_Handle : MonoBehaviour
 
     [Header("Effect")]
     public GameObject[] obj_effect_prefab;
+    private string sColorBk = "";
 
     void Start()
     {
@@ -78,9 +80,21 @@ public class App_Handle : MonoBehaviour
         this.check_rotate_scene();
 
         if (carrot.os_app == OS.Android)
-            file.type =Carrot_File_Type.SimpleFileBrowser;
+            file.type = Carrot_File_Type.SimpleFileBrowser;
         else
-            file.type =Carrot_File_Type.StandaloneFileBrowser;
+            file.type = Carrot_File_Type.StandaloneFileBrowser;
+
+        sColorBk = PlayerPrefs.GetString("bkcolorapp", "#56862E");
+        LoadBkColor(sColorBk);
+    }
+
+    private void LoadBkColor(string sColor)
+    {
+        Color bgColor;
+        if (ColorUtility.TryParseHtmlString(sColor, out bgColor))
+        {
+            CameraMain.backgroundColor = bgColor;
+        }
     }
 
     private void Update()
@@ -150,11 +164,32 @@ public class App_Handle : MonoBehaviour
         Carrot.Carrot_Box box_setting=this.carrot.Create_Setting();
         box_setting.set_act_before_closing(after_close_setting);
 
+        Carrot.Carrot_Box_Item settingBkColor=box_setting.create_item_of_top("bkcolor");
+        settingBkColor.set_icon(this.carrot.sp_icon_theme_color);
+        settingBkColor.set_title("Change background color");
+        settingBkColor.set_tip("Change background color for application");
+        settingBkColor.set_type(Box_Item_Type.box_value_txt);
+        settingBkColor.set_val(sColorBk);
+        settingBkColor.set_act(()=>
+        {
+            carrot.theme.Show_box_change_color(color=>
+            {
+                string s_color_sys = "#"+ColorUtility.ToHtmlStringRGBA(color);
+                PlayerPrefs.SetString("bkcolorapp", s_color_sys);
+                settingBkColor.set_val(s_color_sys);
+                settingBkColor.txt_val.color = color;
+                CameraMain.backgroundColor = color;
+                sColorBk = s_color_sys;
+            });
+        });
+
         Carrot.Carrot_Box_Item setting_save=box_setting.create_item_of_top("saveInfo");
         setting_save.set_icon(this.sp_icon_save);
         setting_save.set_title("Save Information");
         setting_save.set_tip("Save info as text for viewing or sharing");
         setting_save.set_act(managerInfo.SaveInfo);
+
+
 
         Carrot.Carrot_Box_Item setting_ram_info = box_setting.create_item_of_top("info_ram");
         setting_ram_info.set_icon(this.sp_icon_ram);
